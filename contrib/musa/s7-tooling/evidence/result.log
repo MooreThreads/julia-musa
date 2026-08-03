@@ -1,0 +1,5 @@
+result=INCONCLUSIVE
+launcher_exit=0
+nonzero_activity=0
+run_count=1
+timeout_seconds=600
