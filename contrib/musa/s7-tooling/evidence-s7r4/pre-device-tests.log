@@ -1,0 +1,13 @@
+make: Entering directory '/workspace/contrib/musa/s7-tooling'
+./test_native_launcher
+PASS: complete gate token, frozen layout/count/geometry, fail-loud launches, and exact equality
+./test_telemetry.sh
+PASS: real columns, mtgpu labels, exact-PID uniqueness, and nonzero activity
+PASS: continuous assigned-device window rejects wrong device/PID, zero, and out-of-window evidence
+./sample_device_continuously.sh 2>/dev/null; test $? -eq 64
+./native_launcher --print-contract
+object_sha256=900f21e154fe092b572d30236fee343b3b1898d888a13144ab6537a01b645965
+symbol=julia_scalar_kernel
+x=0xf0000001 y=0x40000005 expected=0x10000008
+grid=(16777216,1,1) block=(256,1,1) repeat_count=4096 expected_exit=0
+make: Leaving directory '/workspace/contrib/musa/s7-tooling'

@@ -15,6 +15,14 @@ Julia object or S5000. It cannot establish driver-reported S5000, genuine
 object execution, exact output, or nonzero in-window activity, so correctness
 GO is prohibited. This is technical completion only, not formal acceptance.
 
+The separately authorized S7R4 successor exercised the already committed
+complete-token retry without changing the scientific workload. Its sole
+driver invocation exited zero, returned exactly `0x10000008`, and retained
+nonzero in-window activity from the dynamically assigned S5000. That result is
+**GO** and is recorded without another replay in
+[`musa-s7r4-corrected-gate-runtime-correctness.md`](musa-s7r4-corrected-gate-runtime-correctness.md).
+It does not alter this S7R3 orchestration-failure classification.
+
 ## Preserved correctness denominator
 
 The Julia-origin object was not changed or regenerated:

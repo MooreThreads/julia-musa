@@ -92,6 +92,13 @@ main(void)
     char device_name[128] = {0};
     uint32_t observed = 0;
 
+    /* The complete arm token is the only gate state accepted before driver access. */
+    assert(start_gate_token_valid("", 0) == 0);
+    assert(start_gate_token_valid("armed", 5) == 0);
+    assert(start_gate_token_valid("armEd\n", 6) == 0);
+    assert(start_gate_token_valid("armed\n", 6) == 1);
+    assert(call_index == 0);
+
     assert(s7_validate_frozen_contract(error, sizeof(error)) == 0);
     assert(S7_GRID_X == UINT32_C(16777216));
     assert(S7_BLOCK_X == UINT32_C(256));
@@ -133,6 +140,6 @@ main(void)
     assert(launch_calls == (int)S7_REPEAT_COUNT);
     assert(module_load_calls == 1 && synchronize_calls == 1);
 
-    puts("PASS: frozen layout/count/geometry, fail-loud launches, and exact equality");
+    puts("PASS: complete gate token, frozen layout/count/geometry, fail-loud launches, and exact equality");
     return 0;
 }

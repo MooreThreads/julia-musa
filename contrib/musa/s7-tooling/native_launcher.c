@@ -133,13 +133,13 @@ s7_run(const struct s7_driver *driver, const char *object_path,
     return S7_EXPECTED_EXIT;
 }
 
-#ifndef S7_NATIVE_LAUNCHER_NO_MAIN
 static int
 start_gate_token_valid(const char *token, ssize_t bytes)
 {
     return bytes == 6 && memcmp(token, "armed\n", 6) == 0;
 }
 
+#ifndef S7_NATIVE_LAUNCHER_NO_MAIN
 static uint64_t
 realtime_ns(void)
 {

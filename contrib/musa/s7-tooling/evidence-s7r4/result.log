@@ -1,0 +1,10 @@
+result=GO
+launcher_exit=0
+sampler_exit=0
+evaluator_exit=0
+pid_identity=1
+nonzero_activity=1
+assigned_device=mtgpu.0
+workload_invocations=1
+repeat_count=4096
+timeout_seconds=600

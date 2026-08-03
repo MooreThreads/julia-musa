@@ -1,0 +1,6 @@
+base_commit=efe0520915505efce02626ed3ad20dc8e714d4d2
+pre_device_tests=make -C /workspace/contrib/musa/s7-tooling test
+object_check=sha256sum /workspace/contrib/musa/s6-tooling/evidence/julia-scalar-mp31.o
+sampler=/workspace/contrib/musa/s7-tooling/sample_device_continuously.sh DYNAMIC_DEVICE_LABEL DYNAMIC_PROCFS_DIR RAW_LOG PID_FILE READY_FILE ARMED_FILE DONE_FILE /workspace/contrib/musa/s7-tooling/native_launcher
+launcher=OMP_NUM_THREADS=2 timeout --foreground --signal=KILL 600 /workspace/contrib/musa/s7-tooling/native_launcher --start-gate START_GATE /workspace/contrib/musa/s6-tooling/evidence/julia-scalar-mp31.o
+evaluator=awk -v launcher_pid=DYNAMIC_PID -v assigned_device=DYNAMIC_DEVICE_LABEL -v assigned_dir=DYNAMIC_PROCFS_DIR -v access_start_ns=LAUNCHER_START -v access_end_ns=LAUNCHER_END -f /workspace/contrib/musa/s7-tooling/evaluate_continuous_telemetry.awk RAW_LOG

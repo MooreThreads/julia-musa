@@ -5,14 +5,25 @@ set -o noclobber
 root=$(cd "$(dirname "$0")/../../.." && pwd)
 tooling="$root/contrib/musa/s7-tooling"
 object="$root/contrib/musa/s6-tooling/evidence/julia-scalar-mp31.o"
-evidence="$tooling/evidence-s7r3"
+receipt=${S7_RECEIPT:-s7r3}
+if [[ "$receipt" != s7r3 && "$receipt" != s7r4 ]]; then
+    echo "unsupported continuous receipt: $receipt" >&2
+    exit 64
+fi
+evidence="$tooling/evidence-$receipt"
 sampler="$tooling/sample_device_continuously.sh"
 evaluator="$tooling/evaluate_continuous_telemetry.awk"
 expected_hash=900f21e154fe092b572d30236fee343b3b1898d888a13144ab6537a01b645965
+expected_base=efe0520915505efce02626ed3ad20dc8e714d4d2
 timeout_seconds=600
 
 if [[ -e "$evidence" ]]; then
-    echo "refusing to replay or overwrite S7R3 evidence: $evidence" >&2
+    echo "refusing to replay or overwrite $receipt evidence: $evidence" >&2
+    exit 70
+fi
+actual_base=$(git -C "$root" rev-parse HEAD)
+if [[ "$actual_base" != "$expected_base" ]]; then
+    echo "base commit mismatch: expected=$expected_base actual=$actual_base" >&2
     exit 70
 fi
 actual_hash=$(sha256sum "$object" | awk '{print $1}')
@@ -43,13 +54,27 @@ if [[ "${#assigned_dirs[@]}" -ne 1 ]]; then
 fi
 assigned_dir=${assigned_dirs[0]}
 
-make -C "$tooling" test
 mkdir "$evidence"
+printf '%s\n' \
+    'continuous-telemetry.raw.log whitespace=-trailing-space' \
+    'frozen-telemetry-interface.log whitespace=-trailing-space' \
+    > "$evidence/.gitattributes"
+make -C "$tooling" test > "$evidence/pre-device-tests.log" 2>&1
 "$tooling/native_launcher" --print-contract > "$evidence/frozen-contract.log"
 sha256sum "$object" > "$evidence/retained-object.sha256"
 sha256sum "$tooling/native_launcher" > "$evidence/executed-launcher.sha256"
-sha256sum "$sampler" "$evaluator" "$tooling/test_telemetry.sh" \
+sha256sum "$0" "$tooling/native_launcher.c" "$tooling/native_launcher.h" \
+    "$tooling/test_native_launcher.c" "$sampler" "$evaluator" \
+    "$tooling/test_telemetry.sh" \
     > "$evidence/frozen-sampler.sha256"
+{
+    echo "base_commit=$expected_base"
+    echo "pre_device_tests=make -C $tooling test"
+    echo "object_check=sha256sum $object"
+    echo "sampler=$sampler DYNAMIC_DEVICE_LABEL DYNAMIC_PROCFS_DIR RAW_LOG PID_FILE READY_FILE ARMED_FILE DONE_FILE $tooling/native_launcher"
+    echo "launcher=OMP_NUM_THREADS=2 timeout --foreground --signal=KILL $timeout_seconds $tooling/native_launcher --start-gate START_GATE $object"
+    echo "evaluator=awk -v launcher_pid=DYNAMIC_PID -v assigned_device=DYNAMIC_DEVICE_LABEL -v assigned_dir=DYNAMIC_PROCFS_DIR -v access_start_ns=LAUNCHER_START -v access_end_ns=LAUNCHER_END -f $evaluator RAW_LOG"
+} > "$evidence/frozen-commands.log"
 {
     echo "assigned_device_node=${visible_nodes[0]}"
     echo "assigned_device_label=$assigned_device"
@@ -128,6 +153,13 @@ printf 'done\n' > "$done_file"
 wait "$sampler_pid"
 sampler_exit=$?
 set -e
+
+{
+    echo "accepted_token=armed\\n"
+    echo "accepted_token_bytes=$(wc -c < "$gate_file")"
+    echo "accepted_token_sha256=$(sha256sum "$gate_file" | awk '{print $1}')"
+    echo "complete_token_retry=1"
+} > "$evidence/gate-contract.log"
 
 access_start_ns=$(sed -n 's/^device_access_start_ns=\([1-9][0-9]*\)$/\1/p' \
     "$evidence/launcher.stdout.log")

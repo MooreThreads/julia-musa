@@ -1,0 +1,11 @@
+launcher_pid=842
+assigned_device=mtgpu.0
+sampler_start_ns=1785787088219955658
+device_access_start_ns=1785787088245284938
+device_access_end_ns=1785787167207241297
+sampler_end_ns=1785787167229910568
+in_window_samples=7576
+activity_kind=utilisation_delta
+activity_timestamp_ns=1785787088329293739
+activity_path=/proc/driver/musa/gpu00/status
+activity_delta=200
