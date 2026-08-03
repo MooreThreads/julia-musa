@@ -19,6 +19,14 @@ exact-PID sample was retained. The required assigned-device activity gate is
 therefore unestablished: this is not correctness GO or formal acceptance, and
 the workload was not replayed.
 
+S7R3 replaced the one-shot snapshot with a bounded continuous sampler armed
+before device access. Its sole launcher invocation authenticated the dynamic
+assigned-device mapping and launcher PID, but a start-gate creation race made
+the launcher reject the gate before entering the MUSA driver. That successor
+is therefore **NO_GO**, not a correction or reinterpretation of this S7R2
+receipt, and it was not replayed. See
+[`musa-s7r3-continuous-device-runtime-correctness.md`](musa-s7r3-continuous-device-runtime-correctness.md).
+
 ## Unchanged scientific input and workload
 
 S7R2 did not change the Julia 1.9.4/LLVM 14.0.6, GPUCompiler 0.26.2, or

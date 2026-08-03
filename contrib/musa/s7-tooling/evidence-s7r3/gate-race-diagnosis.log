@@ -1,0 +1,11 @@
+classification=NO_GO
+launcher_invocations=1
+device_access_started=0
+driver_workload_invocations=0
+sampler_armed=1
+sampler_exit=0
+start_gate_size=6
+start_gate_sha256=dc05a24877302a4b56f0eddb2f8fcd2e27f99514f1e284dcd7c4ff89403573a3
+failure=launcher opened the newly created gate after creation but before its six-byte token write completed
+correction=launcher retries a short gate read and validates only the complete six-byte token
+replay_performed=0

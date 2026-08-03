@@ -14,7 +14,7 @@
 #define S7_SENTINEL UINT32_C(0xdeadbeef)
 #define S7_GRID_X UINT32_C(16777216)
 #define S7_BLOCK_X UINT32_C(256)
-#define S7_REPEAT_COUNT UINT32_C(256)
+#define S7_REPEAT_COUNT UINT32_C(4096)
 #define S7_EXPECTED_EXIT 0
 
 struct s7_kernel_args {
@@ -42,6 +42,7 @@ struct s7_driver {
 
 int s7_validate_frozen_contract(char *error, size_t error_size);
 int s7_run(const struct s7_driver *driver, const char *object_path,
-           char *error, size_t error_size, uint32_t *observed);
+           char *error, size_t error_size, uint32_t *observed,
+           char *observed_device_name, size_t observed_device_name_size);
 
 #endif

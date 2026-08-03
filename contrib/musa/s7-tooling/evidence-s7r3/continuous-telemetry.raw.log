@@ -1,0 +1,218 @@
+@sampler_start timestamp_ns=1785786583469681085 device=mtgpu.0 poll_interval_seconds=0.005 max_samples=120000
+@sample timestamp_ns=1785786583470686822 device=mtgpu.0
+@source path=/proc/driver/musa/gpu00/proc_util
+device:    (0, 128)
+	Pid 	 VPid 	 Total 	   2D 	   TA 	   3D 	  CMP 	  TRANSFER 	 PidName
+@end_source
+@source path=/proc/driver/musa/gpu00/status
+Driver Status:   OK
+Device ID: 0:0
+Firmware Status: OK
+Server Errors:   3
+HWR Event Count: 0
+CRR Event Count: 0
+SLR Event Count: 0
+WGP Error Count: 0
+TRP Error Count: 0
+FWF Event Count: 0
+APM Event Count: 0
+GPU Overall Utilisation:      0%
+	GEOM Utilisation:     0%
+	3D Utilisation:       0%
+	COMP Utilisation:  0%
+	2D Utilisation:       0%
+@end_source
+@source path=/proc/driver/musa/gpu00/int_status
+int status:
+target 0     host_irq: 1509  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 77   
+target 1     host_irq: 1510  received_int_times: 374807 completed_int_times: 374807 last_claim_int_id: 4    
+target 2     host_irq: 1511  received_int_times: 21024 completed_int_times: 21024 last_claim_int_id: 67   
+target 3     host_irq: 1512  received_int_times: 3027763 completed_int_times: 3027763 last_claim_int_id: 35   
+target 4     host_irq: 1513  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 81   
+target 5     host_irq: 1514  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 82   
+target 6     host_irq: 1515  received_int_times: 2     completed_int_times: 2     last_claim_int_id: 75   
+target 7     host_irq: 1516  received_int_times: 2     completed_int_times: 2     last_claim_int_id: 76   
+@end_source
+@source path=/proc/driver/musa/gpu00/memory
+MemoryUsageAllocGPUMemLMA		0
+MemoryUsageAllocGPUMemLMAMax		25727971328
+MemoryUsageMappedGPUMemLMA		0
+MemoryUsageMappedGPUMemLMAMax		0
+MemoryUsageAllocSystemMem			0
+MemoryUsageAllocSystemMemMax		0
+@end_source
+@end_sample
+@sample timestamp_ns=1785786583475594756 device=mtgpu.0
+@source path=/proc/driver/musa/gpu00/proc_util
+device:    (0, 128)
+	Pid 	 VPid 	 Total 	   2D 	   TA 	   3D 	  CMP 	  TRANSFER 	 PidName
+@end_source
+@source path=/proc/driver/musa/gpu00/status
+Driver Status:   OK
+Device ID: 0:0
+Firmware Status: OK
+Server Errors:   3
+HWR Event Count: 0
+CRR Event Count: 0
+SLR Event Count: 0
+WGP Error Count: 0
+TRP Error Count: 0
+FWF Event Count: 0
+APM Event Count: 0
+GPU Overall Utilisation:      0%
+	GEOM Utilisation:     0%
+	3D Utilisation:       0%
+	COMP Utilisation:  0%
+	2D Utilisation:       0%
+@end_source
+@source path=/proc/driver/musa/gpu00/int_status
+int status:
+target 0     host_irq: 1509  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 77   
+target 1     host_irq: 1510  received_int_times: 374807 completed_int_times: 374807 last_claim_int_id: 4    
+target 2     host_irq: 1511  received_int_times: 21024 completed_int_times: 21024 last_claim_int_id: 67   
+target 3     host_irq: 1512  received_int_times: 3027763 completed_int_times: 3027763 last_claim_int_id: 35   
+target 4     host_irq: 1513  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 81   
+target 5     host_irq: 1514  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 82   
+target 6     host_irq: 1515  received_int_times: 2     completed_int_times: 2     last_claim_int_id: 75   
+target 7     host_irq: 1516  received_int_times: 2     completed_int_times: 2     last_claim_int_id: 76   
+@end_source
+@source path=/proc/driver/musa/gpu00/memory
+MemoryUsageAllocGPUMemLMA		0
+MemoryUsageAllocGPUMemLMAMax		25727971328
+MemoryUsageMappedGPUMemLMA		0
+MemoryUsageMappedGPUMemLMAMax		0
+MemoryUsageAllocSystemMem			0
+MemoryUsageAllocSystemMemMax		0
+@end_source
+@end_sample
+@launcher_identity pid=1079 comm=native_launcher exe=/workspace/contrib/musa/s7-tooling/native_launcher
+@sample timestamp_ns=1785786583487881280 device=mtgpu.0
+@source path=/proc/driver/musa/gpu00/proc_util
+device:    (0, 128)
+	Pid 	 VPid 	 Total 	   2D 	   TA 	   3D 	  CMP 	  TRANSFER 	 PidName
+@end_source
+@source path=/proc/driver/musa/gpu00/status
+Driver Status:   OK
+Device ID: 0:0
+Firmware Status: OK
+Server Errors:   3
+HWR Event Count: 0
+CRR Event Count: 0
+SLR Event Count: 0
+WGP Error Count: 0
+TRP Error Count: 0
+FWF Event Count: 0
+APM Event Count: 0
+GPU Overall Utilisation:      0%
+	GEOM Utilisation:     0%
+	3D Utilisation:       0%
+	COMP Utilisation:  0%
+	2D Utilisation:       0%
+@end_source
+@source path=/proc/driver/musa/gpu00/int_status
+int status:
+target 0     host_irq: 1509  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 77   
+target 1     host_irq: 1510  received_int_times: 374807 completed_int_times: 374807 last_claim_int_id: 4    
+target 2     host_irq: 1511  received_int_times: 21024 completed_int_times: 21024 last_claim_int_id: 67   
+target 3     host_irq: 1512  received_int_times: 3027763 completed_int_times: 3027763 last_claim_int_id: 35   
+target 4     host_irq: 1513  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 81   
+target 5     host_irq: 1514  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 82   
+target 6     host_irq: 1515  received_int_times: 2     completed_int_times: 2     last_claim_int_id: 75   
+target 7     host_irq: 1516  received_int_times: 2     completed_int_times: 2     last_claim_int_id: 76   
+@end_source
+@source path=/proc/driver/musa/gpu00/memory
+MemoryUsageAllocGPUMemLMA		0
+MemoryUsageAllocGPUMemLMAMax		25727971328
+MemoryUsageMappedGPUMemLMA		0
+MemoryUsageMappedGPUMemLMAMax		0
+MemoryUsageAllocSystemMem			0
+MemoryUsageAllocSystemMemMax		0
+@end_source
+@end_sample
+@sample timestamp_ns=1785786583492688298 device=mtgpu.0
+@source path=/proc/driver/musa/gpu00/proc_util
+device:    (0, 128)
+	Pid 	 VPid 	 Total 	   2D 	   TA 	   3D 	  CMP 	  TRANSFER 	 PidName
+@end_source
+@source path=/proc/driver/musa/gpu00/status
+Driver Status:   OK
+Device ID: 0:0
+Firmware Status: OK
+Server Errors:   3
+HWR Event Count: 0
+CRR Event Count: 0
+SLR Event Count: 0
+WGP Error Count: 0
+TRP Error Count: 0
+FWF Event Count: 0
+APM Event Count: 0
+GPU Overall Utilisation:      0%
+	GEOM Utilisation:     0%
+	3D Utilisation:       0%
+	COMP Utilisation:  0%
+	2D Utilisation:       0%
+@end_source
+@source path=/proc/driver/musa/gpu00/int_status
+int status:
+target 0     host_irq: 1509  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 77   
+target 1     host_irq: 1510  received_int_times: 374807 completed_int_times: 374807 last_claim_int_id: 4    
+target 2     host_irq: 1511  received_int_times: 21024 completed_int_times: 21024 last_claim_int_id: 67   
+target 3     host_irq: 1512  received_int_times: 3027763 completed_int_times: 3027763 last_claim_int_id: 35   
+target 4     host_irq: 1513  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 81   
+target 5     host_irq: 1514  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 82   
+target 6     host_irq: 1515  received_int_times: 2     completed_int_times: 2     last_claim_int_id: 75   
+target 7     host_irq: 1516  received_int_times: 2     completed_int_times: 2     last_claim_int_id: 76   
+@end_source
+@source path=/proc/driver/musa/gpu00/memory
+MemoryUsageAllocGPUMemLMA		0
+MemoryUsageAllocGPUMemLMAMax		25727971328
+MemoryUsageMappedGPUMemLMA		0
+MemoryUsageMappedGPUMemLMAMax		0
+MemoryUsageAllocSystemMem			0
+MemoryUsageAllocSystemMemMax		0
+@end_source
+@end_sample
+@sample timestamp_ns=1785786583503058507 device=mtgpu.0
+@source path=/proc/driver/musa/gpu00/proc_util
+device:    (0, 128)
+	Pid 	 VPid 	 Total 	   2D 	   TA 	   3D 	  CMP 	  TRANSFER 	 PidName
+@end_source
+@source path=/proc/driver/musa/gpu00/status
+Driver Status:   OK
+Device ID: 0:0
+Firmware Status: OK
+Server Errors:   3
+HWR Event Count: 0
+CRR Event Count: 0
+SLR Event Count: 0
+WGP Error Count: 0
+TRP Error Count: 0
+FWF Event Count: 0
+APM Event Count: 0
+GPU Overall Utilisation:      0%
+	GEOM Utilisation:     0%
+	3D Utilisation:       0%
+	COMP Utilisation:  0%
+	2D Utilisation:       0%
+@end_source
+@source path=/proc/driver/musa/gpu00/int_status
+int status:
+target 0     host_irq: 1509  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 77   
+target 1     host_irq: 1510  received_int_times: 374807 completed_int_times: 374807 last_claim_int_id: 4    
+target 2     host_irq: 1511  received_int_times: 21024 completed_int_times: 21024 last_claim_int_id: 67   
+target 3     host_irq: 1512  received_int_times: 3027763 completed_int_times: 3027763 last_claim_int_id: 35   
+target 4     host_irq: 1513  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 81   
+target 5     host_irq: 1514  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 82   
+target 6     host_irq: 1515  received_int_times: 2     completed_int_times: 2     last_claim_int_id: 75   
+target 7     host_irq: 1516  received_int_times: 2     completed_int_times: 2     last_claim_int_id: 76   
+@end_source
+@source path=/proc/driver/musa/gpu00/memory
+MemoryUsageAllocGPUMemLMA		0
+MemoryUsageAllocGPUMemLMAMax		25727971328
+MemoryUsageMappedGPUMemLMA		0
+MemoryUsageMappedGPUMemLMAMax		0
+MemoryUsageAllocSystemMem			0
+MemoryUsageAllocSystemMemMax		0
+@end_source
+@end_sample
+@sampler_end timestamp_ns=1785786583507647065 samples=5 identity_seen=1

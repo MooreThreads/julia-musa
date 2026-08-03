@@ -16,4 +16,5 @@ test_native_launcher: test_native_launcher.c native_launcher.c native_launcher.h
 test: all
 	./test_native_launcher
 	./test_telemetry.sh
+	./sample_device_continuously.sh 2>/dev/null; test $$? -eq 64
 	./native_launcher --print-contract

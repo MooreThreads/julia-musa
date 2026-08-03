@@ -1,0 +1,4 @@
+object_sha256=900f21e154fe092b572d30236fee343b3b1898d888a13144ab6537a01b645965
+symbol=julia_scalar_kernel
+x=0xf0000001 y=0x40000005 expected=0x10000008
+grid=(16777216,1,1) block=(256,1,1) repeat_count=4096 expected_exit=0

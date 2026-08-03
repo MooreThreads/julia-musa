@@ -89,38 +89,46 @@ int
 main(void)
 {
     char error[256] = {0};
+    char device_name[128] = {0};
     uint32_t observed = 0;
 
     assert(s7_validate_frozen_contract(error, sizeof(error)) == 0);
     assert(S7_GRID_X == UINT32_C(16777216));
     assert(S7_BLOCK_X == UINT32_C(256));
-    assert(S7_REPEAT_COUNT == UINT32_C(256));
+    assert(S7_REPEAT_COUNT == UINT32_C(4096));
     reset(0);
-    assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), &observed) == 0);
+    assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), &observed,
+                  device_name, sizeof(device_name)) == 0);
     assert(observed == S7_EXPECTED && launch_calls == (int)S7_REPEAT_COUNT);
     assert(module_load_calls == 1 && synchronize_calls == 1);
+    assert(strcmp(device_name, "MTT S5000") == 0);
 
     reset(6);
-    assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), NULL) == 1);
+    assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), NULL,
+                  NULL, 0) == 1);
     assert(strstr(error, "muModuleLoad failed") != NULL);
     assert(module_load_calls == 1 && launch_calls == 0 && synchronize_calls == 0);
     reset(7);
-    assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), NULL) == 1);
+    assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), NULL,
+                  NULL, 0) == 1);
     assert(strstr(error, "muModuleGetFunction") != NULL);
     assert(module_load_calls == 1 && launch_calls == 0 && synchronize_calls == 0);
     reset(10);
-    assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), NULL) == 1);
+    assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), NULL,
+                  NULL, 0) == 1);
     assert(strstr(error, "muLaunchKernel failed") != NULL);
     assert(module_load_calls == 1 && launch_calls == 1 && synchronize_calls == 0);
     reset(10 + (int)(S7_REPEAT_COUNT / UINT32_C(2)));
-    assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), NULL) == 1);
+    assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), NULL,
+                  NULL, 0) == 1);
     assert(strstr(error, "muLaunchKernel failed") != NULL);
     assert(launch_calls == (int)(S7_REPEAT_COUNT / UINT32_C(2)) + 1);
     assert(module_load_calls == 1 && synchronize_calls == 0);
 
     reset(0);
     copied_value = S7_EXPECTED + UINT32_C(1);
-    assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), NULL) == 1);
+    assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), NULL,
+                  NULL, 0) == 1);
     assert(strstr(error, "exact mismatch") != NULL);
     assert(launch_calls == (int)S7_REPEAT_COUNT);
     assert(module_load_calls == 1 && synchronize_calls == 1);

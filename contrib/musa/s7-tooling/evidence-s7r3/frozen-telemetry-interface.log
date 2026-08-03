@@ -1,0 +1,42 @@
+assigned_device_node=/dev/mtgpu.0
+assigned_device_label=mtgpu.0
+assigned_procfs_dir=/proc/driver/musa/gpu00
+@source /proc/driver/musa/gpu00/devname
+mtgpu.0
+@source /proc/driver/musa/gpu00/proc_util
+device:    (0, 128)
+	Pid 	 VPid 	 Total 	   2D 	   TA 	   3D 	  CMP 	  TRANSFER 	 PidName
+@source /proc/driver/musa/gpu00/status
+Driver Status:   OK
+Device ID: 0:0
+Firmware Status: OK
+Server Errors:   3
+HWR Event Count: 0
+CRR Event Count: 0
+SLR Event Count: 0
+WGP Error Count: 0
+TRP Error Count: 0
+FWF Event Count: 0
+APM Event Count: 0
+GPU Overall Utilisation:      0%
+	GEOM Utilisation:     0%
+	3D Utilisation:       0%
+	COMP Utilisation:  0%
+	2D Utilisation:       0%
+@source /proc/driver/musa/gpu00/int_status
+int status:
+target 0     host_irq: 1509  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 77   
+target 1     host_irq: 1510  received_int_times: 374807 completed_int_times: 374807 last_claim_int_id: 4    
+target 2     host_irq: 1511  received_int_times: 21024 completed_int_times: 21024 last_claim_int_id: 67   
+target 3     host_irq: 1512  received_int_times: 3027763 completed_int_times: 3027763 last_claim_int_id: 35   
+target 4     host_irq: 1513  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 81   
+target 5     host_irq: 1514  received_int_times: 4     completed_int_times: 4     last_claim_int_id: 82   
+target 6     host_irq: 1515  received_int_times: 2     completed_int_times: 2     last_claim_int_id: 75   
+target 7     host_irq: 1516  received_int_times: 2     completed_int_times: 2     last_claim_int_id: 76   
+@source /proc/driver/musa/gpu00/memory
+MemoryUsageAllocGPUMemLMA		0
+MemoryUsageAllocGPUMemLMAMax		25727971328
+MemoryUsageMappedGPUMemLMA		0
+MemoryUsageMappedGPUMemLMAMax		0
+MemoryUsageAllocSystemMem			0
+MemoryUsageAllocSystemMemMax		0

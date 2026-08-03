@@ -1,0 +1,3 @@
+3cf5e2ec3453b215d6c886e68bdd9ccdd7ff10382c0cec9e2e41cca4147a00d9  /workspace/contrib/musa/s7-tooling/sample_device_continuously.sh
+8fd22083dd106405d2dea88ae7be60e563c9738be9fc768975c60ea56bd1db68  /workspace/contrib/musa/s7-tooling/evaluate_continuous_telemetry.awk
+6b803eae725d49b85d49937ce014b556c5631be4ea942e9a465a395351432d1f  /workspace/contrib/musa/s7-tooling/test_telemetry.sh
