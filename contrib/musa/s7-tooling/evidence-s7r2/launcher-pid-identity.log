@@ -1,0 +1,3 @@
+launcher_pid=780
+launcher_comm=native_launcher
+launcher_exe=/workspace/contrib/musa/s7-tooling/native_launcher

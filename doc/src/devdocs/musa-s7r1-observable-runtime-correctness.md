@@ -20,6 +20,14 @@ conflated. No workload replay or post-observation telemetry change was made.
 The mandatory activity gate is therefore unestablished, so this is not GO or
 formal acceptance.
 
+S7R2 removed only that false procfs product-name predicate, retained the
+independent driver-reported S5000 guard, and scanned the real `mtgpu.N`
+sources for a unique exact-PID row. Its one separately authorized observation
+again returned the exact scalar result, but no nonzero qualifying row was
+retained. S7R2 is therefore also **INCONCLUSIVE**, without replay or a claim
+that the corrected observation gate passed. See
+[`musa-s7r2-corrected-procfs-runtime-correctness.md`](musa-s7r2-corrected-procfs-runtime-correctness.md).
+
 ## Preserved Julia correctness denominator
 
 The retained Julia 1.9.4/LLVM 14.0.6, GPUCompiler 0.26.2, and LLVM.jl 6.6.0
