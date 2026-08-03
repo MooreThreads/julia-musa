@@ -1,2 +1,4 @@
 /deps/
-Manifest.toml
+/depot/
+!Manifest.toml
+!evidence/*.o

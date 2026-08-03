@@ -1,0 +1,4 @@
+
+contrib/musa/s6-tooling/evidence/julia-scalar-mp31.o:	file format elf64-mtgpu
+architecture: mtgpu
+start address: 0x0000000000000000
