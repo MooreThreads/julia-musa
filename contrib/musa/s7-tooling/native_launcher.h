@@ -14,6 +14,7 @@
 #define S7_SENTINEL UINT32_C(0xdeadbeef)
 #define S7_GRID_X UINT32_C(16777216)
 #define S7_BLOCK_X UINT32_C(256)
+#define S7_REPEAT_COUNT UINT32_C(256)
 #define S7_EXPECTED_EXIT 0
 
 struct s7_kernel_args {

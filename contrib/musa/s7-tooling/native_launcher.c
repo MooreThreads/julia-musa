@@ -3,6 +3,7 @@
 #include <inttypes.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 _Static_assert(sizeof(MUdeviceptr) == sizeof(uint64_t), "MUSA device pointer must be 64-bit");
 _Static_assert(sizeof(struct s7_kernel_args) == 16, "kernel argument buffer must be 16 bytes");
@@ -37,7 +38,11 @@ s7_validate_frozen_contract(char *error, size_t error_size)
         return fail_text(error, error_size, "frozen kernel argument layout does not match");
     if (strcmp(S7_KERNEL_SYMBOL, "julia_scalar_kernel") != 0)
         return fail_text(error, error_size, "frozen kernel symbol does not match");
-    if (S7_GRID_X == 0 || S7_BLOCK_X == 0)
+    if (S7_GRID_X != UINT32_C(16777216) || S7_BLOCK_X != UINT32_C(256))
+        return fail_text(error, error_size, "frozen launch geometry does not match");
+    if (S7_REPEAT_COUNT != UINT32_C(256))
+        return fail_text(error, error_size, "frozen repeat count does not match");
+    if (S7_GRID_X == 0 || S7_BLOCK_X == 0 || S7_REPEAT_COUNT == 0)
         return fail_text(error, error_size, "frozen launch geometry is empty");
     return 0;
 }
@@ -58,6 +63,7 @@ s7_run(const struct s7_driver *driver, const char *object_path,
     char device_name[128] = {0};
     void *kernel_params[] = {&device_out, &x, &y};
     MUresult result;
+    uint32_t launch;
 
     if (s7_validate_frozen_contract(error, error_size) != 0)
         return 1;
@@ -95,10 +101,12 @@ s7_run(const struct s7_driver *driver, const char *object_path,
     result = driver->memcpy_htod(device_out, &host_out, sizeof(host_out));
     if (result != MUSA_SUCCESS)
         return fail(error, error_size, "muMemcpyHtoD", result);
-    result = driver->launch_kernel(function, S7_GRID_X, 1, 1, S7_BLOCK_X, 1, 1,
-                                   0, NULL, kernel_params, NULL);
-    if (result != MUSA_SUCCESS)
-        return fail(error, error_size, "muLaunchKernel", result);
+    for (launch = 0; launch < S7_REPEAT_COUNT; launch++) {
+        result = driver->launch_kernel(function, S7_GRID_X, 1, 1, S7_BLOCK_X, 1, 1,
+                                       0, NULL, kernel_params, NULL);
+        if (result != MUSA_SUCCESS)
+            return fail(error, error_size, "muLaunchKernel", result);
+    }
     result = driver->ctx_synchronize();
     if (result != MUSA_SUCCESS)
         return fail(error, error_size, "muCtxSynchronize", result);
@@ -139,14 +147,17 @@ main(int argc, char **argv)
         printf("symbol=%s\n", S7_KERNEL_SYMBOL);
         printf("x=0x%08" PRIx32 " y=0x%08" PRIx32 " expected=0x%08" PRIx32 "\n",
                S7_X, S7_Y, S7_EXPECTED);
-        printf("grid=(%" PRIu32 ",1,1) block=(%" PRIu32 ",1,1) expected_exit=%d\n",
-               S7_GRID_X, S7_BLOCK_X, S7_EXPECTED_EXIT);
+        printf("grid=(%" PRIu32 ",1,1) block=(%" PRIu32 ",1,1) repeat_count=%" PRIu32
+               " expected_exit=%d\n",
+               S7_GRID_X, S7_BLOCK_X, S7_REPEAT_COUNT, S7_EXPECTED_EXIT);
         return 0;
     }
     if (argc != 2) {
         fprintf(stderr, "usage: %s OBJECT | --print-contract\n", argv[0]);
         return 64;
     }
+    printf("launcher_pid=%jd\n", (intmax_t)getpid());
+    (void)fflush(stdout);
     exit_code = s7_run(&driver, argv[1], error, sizeof(error), &observed);
     if (exit_code != 0) {
         fprintf(stderr, "NO_GO: %s\n", error);

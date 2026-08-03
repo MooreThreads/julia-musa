@@ -16,6 +16,14 @@ This is a representative Julia-origin native MUSA runtime and scalar
 correctness receipt. It is technical evidence only, not formal acceptance or a
 performance result.
 
+An S7R1 successor attempted the separately authorized corrected observation
+with a bounded repeated-launch workload. It again proved authentic driver
+execution and exact scalar equality, but its frozen telemetry contract
+incorrectly required the procfs `devname` value to contain `S5000`; the actual
+interface uses `mtgpu.N` node labels. The successor therefore remains
+**INCONCLUSIVE** without replay. See
+[`musa-s7r1-observable-runtime-correctness.md`](musa-s7r1-observable-runtime-correctness.md).
+
 ## Preserved Julia-origin device input
 
 The accepted S6R1 IR, bitcode, and object under

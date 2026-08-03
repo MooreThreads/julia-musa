@@ -15,4 +15,5 @@ test_native_launcher: test_native_launcher.c native_launcher.c native_launcher.h
 
 test: all
 	./test_native_launcher
+	./test_telemetry.sh
 	./native_launcher --print-contract

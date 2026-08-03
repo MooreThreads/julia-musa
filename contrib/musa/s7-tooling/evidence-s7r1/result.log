@@ -1,0 +1,7 @@
+result=INCONCLUSIVE
+launcher_exit=0
+pid_identity=1
+nonzero_activity=0
+workload_invocations=1
+repeat_count=256
+timeout_seconds=600

@@ -6,6 +6,8 @@
 static int call_index;
 static int fail_index;
 static int launch_calls;
+static int module_load_calls;
+static int synchronize_calls;
 static uint32_t copied_value;
 
 static MUresult
@@ -24,7 +26,12 @@ static MUresult mock_name(char *name, int length, MUdevice device)
 static MUresult mock_context(MUcontext *context, unsigned int flags, MUdevice device)
 { assert(flags == 0 && device == 7); *context = (MUcontext)(uintptr_t)1; return step(); }
 static MUresult mock_module(MUmodule *module, const char *path)
-{ assert(strcmp(path, "retained.o") == 0); *module = (MUmodule)(uintptr_t)2; return step(); }
+{
+    module_load_calls++;
+    assert(strcmp(path, "retained.o") == 0);
+    *module = (MUmodule)(uintptr_t)2;
+    return step();
+}
 static MUresult mock_function(MUfunction *function, MUmodule module, const char *symbol)
 {
     assert(module == (MUmodule)(uintptr_t)2);
@@ -54,7 +61,7 @@ static MUresult mock_launch(MUfunction function, unsigned int gx, unsigned int g
     assert(*(uint32_t *)params[1] == S7_X && *(uint32_t *)params[2] == S7_Y);
     return step();
 }
-static MUresult mock_sync(void) { return step(); }
+static MUresult mock_sync(void) { synchronize_calls++; return step(); }
 static MUresult mock_dtoh(void *destination, MUdeviceptr pointer, size_t size)
 {
     assert(pointer == UINT64_C(0x12345678) && size == sizeof(uint32_t));
@@ -73,6 +80,8 @@ reset(int failure)
     call_index = 0;
     fail_index = failure;
     launch_calls = 0;
+    module_load_calls = 0;
+    synchronize_calls = 0;
     copied_value = S7_EXPECTED;
 }
 
@@ -83,25 +92,39 @@ main(void)
     uint32_t observed = 0;
 
     assert(s7_validate_frozen_contract(error, sizeof(error)) == 0);
+    assert(S7_GRID_X == UINT32_C(16777216));
+    assert(S7_BLOCK_X == UINT32_C(256));
+    assert(S7_REPEAT_COUNT == UINT32_C(256));
     reset(0);
     assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), &observed) == 0);
-    assert(observed == S7_EXPECTED && launch_calls == 1);
+    assert(observed == S7_EXPECTED && launch_calls == (int)S7_REPEAT_COUNT);
+    assert(module_load_calls == 1 && synchronize_calls == 1);
 
     reset(6);
     assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), NULL) == 1);
-    assert(strstr(error, "muModuleLoad failed") != NULL && launch_calls == 0);
+    assert(strstr(error, "muModuleLoad failed") != NULL);
+    assert(module_load_calls == 1 && launch_calls == 0 && synchronize_calls == 0);
     reset(7);
     assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), NULL) == 1);
-    assert(strstr(error, "muModuleGetFunction") != NULL && launch_calls == 0);
+    assert(strstr(error, "muModuleGetFunction") != NULL);
+    assert(module_load_calls == 1 && launch_calls == 0 && synchronize_calls == 0);
     reset(10);
     assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), NULL) == 1);
-    assert(strstr(error, "muLaunchKernel failed") != NULL && launch_calls == 1);
+    assert(strstr(error, "muLaunchKernel failed") != NULL);
+    assert(module_load_calls == 1 && launch_calls == 1 && synchronize_calls == 0);
+    reset(10 + (int)(S7_REPEAT_COUNT / UINT32_C(2)));
+    assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), NULL) == 1);
+    assert(strstr(error, "muLaunchKernel failed") != NULL);
+    assert(launch_calls == (int)(S7_REPEAT_COUNT / UINT32_C(2)) + 1);
+    assert(module_load_calls == 1 && synchronize_calls == 0);
 
     reset(0);
     copied_value = S7_EXPECTED + UINT32_C(1);
     assert(s7_run(&mock_driver, "retained.o", error, sizeof(error), NULL) == 1);
-    assert(strstr(error, "exact mismatch") != NULL && launch_calls == 1);
+    assert(strstr(error, "exact mismatch") != NULL);
+    assert(launch_calls == (int)S7_REPEAT_COUNT);
+    assert(module_load_calls == 1 && synchronize_calls == 1);
 
-    puts("PASS: frozen layout, module/symbol/launch failures, and exact equality");
+    puts("PASS: frozen layout/count/geometry, fail-loud launches, and exact equality");
     return 0;
 }

@@ -1,0 +1,10 @@
+post_run=true
+proc_util_columns=Pid VPid Total 2D TA 3D CMP TRANSFER PidName
+/proc/driver/musa/gpu00/devname=mtgpu.0
+/proc/driver/musa/gpu01/devname=mtgpu.1
+/proc/driver/musa/gpu02/devname=mtgpu.2
+/proc/driver/musa/gpu03/devname=mtgpu.3
+/proc/driver/musa/gpu04/devname=mtgpu.4
+/proc/driver/musa/gpu05/devname=mtgpu.5
+/proc/driver/musa/gpu06/devname=mtgpu.6
+/proc/driver/musa/gpu07/devname=mtgpu.7
