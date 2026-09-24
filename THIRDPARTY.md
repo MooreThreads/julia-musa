@@ -1,7 +1,23 @@
-The Julia language is licensed under the MIT License (see [LICENSE.md](./LICENSE.md) ). The "language" consists
-of the compiler (the contents of `src/`), most of the standard library (`base/` and `stdlib/`),
-and some utilities (most of the rest of the files in this repository). See below
-for exceptions.
+The julia-musa project is licensed under the MIT License (see LICENSE.md).
+julia-musa is a MUSA port of the [Julia language](https://github.com/JuliaLang/julia).
+The "language" consists of the compiler (the contents of `src/`), most of the
+standard library (`base/` and `stdlib/`), some utilities (most of the rest of
+the files in this repository), and the experimental MUSA adapter under
+`contrib/musa/`. See below for exceptions.
+
+This file lists third-party software used by julia-musa. A copy of julia-musa
+that includes this file does not necessarily use all the open source software
+packages referred to below and may also only use portions of a given package.
+Moore Threads has not modified the third-party components listed here.
+
+## Inherited from Julia
+
+The following entries are taken from upstream Julia
+[`THIRDPARTY.md`](https://github.com/JuliaLang/julia/blob/master/THIRDPARTY.md).
+They apply when the Julia source tree is built or redistributed as a complete
+language. The MUSA adapter in `contrib/musa/` does not itself call these
+libraries, and they are not extra attachments that must be uploaded with the
+git source tree (except for the in-tree fragments named below).
 
 - [crc32c.c](https://stackoverflow.com/questions/17645167/implementing-sse-4-2s-crc32c-in-software) (CRC-32c checksum code by Mark Adler) [[ZLib](https://opensource.org/licenses/Zlib)].
 - [dl-cache.h](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html) (for reading ld-cache files on startup) [LGPL2.1+]
@@ -72,3 +88,29 @@ Julia bundles the following external programs and libraries:
 
 On some platforms, distributions of Julia contain SSL certificate authority certificates,
 released under the [Mozilla Public License](https://en.wikipedia.org/wiki/Mozilla_Public_License).
+
+## Added by the julia-musa MUSA adapter
+
+The isolated package under `contrib/musa/` is not part of Julia's normal build.
+It records a fail-loud MTGPU target contract and an optional native launcher.
+The following third-party packages are declared or invoked by that adapter.
+They are resolved from the Julia package registry or provided by an installed
+MUSA toolkit; they are not vendored into this source tree.
+
+The `contrib/musa` adapter uses the following Julia packages, which have their
+own licenses:
+
+- [GPUCompiler.jl](https://github.com/JuliaGPU/GPUCompiler.jl/blob/master/LICENSE.md) [MIT]. Direct dependency of `MUSATargetAdapter` (`contrib/musa/Project.toml`; S5 pins 2.1.1, S6 pins 0.26.2).
+- [LLVM.jl](https://github.com/maleadt/LLVM.jl/blob/master/LICENSE.md) [MIT]. Direct dependency of `MUSATargetAdapter` (`contrib/musa/Project.toml`; S5 pins 9.11.0, S6 pins 6.6.0).
+- [LLVMExtra_jll](https://github.com/JuliaBinaryWrappers/LLVMExtra_jll.jl) [MIT]. JLL used by LLVM.jl (S5 0.0.44+0, S6 0.0.29+0). Not imported directly by the adapter sources.
+
+The optional native launcher (`contrib/musa/s7-tooling`) links against a
+locally installed MUSA runtime (`-lmusa`, `#include <musa.h>`) and the S6
+object route may invoke vendor `llc` / `llvm-dis` / `llvm-objdump` from
+MUSA Toolkit 5.2.0. Those vendor files are not distributed with this source
+repository.
+
+GPUCompiler.jl's package closure may also resolve supporting packages such as
+CEnum, ExprTools, CompilerCaching, Highlights, TreeSitter, and Tracy. Those
+are transitive registry dependencies, not direct adapter imports, and are not
+listed separately here.
