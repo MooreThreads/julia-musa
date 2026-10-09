@@ -10,7 +10,7 @@ adapter under `contrib/musa/`.
 - Upstream project: [JuliaLang/julia](https://github.com/JuliaLang/julia)
 - Inherited source version: `1.14.0-DEV`
 - Upstream baseline: `6d9430a62c98680bacc98f8068cb0c93fd1ffaae`
-- Moore Threads publication line: `musa-v1.14.0-DEV`
+- Moore Threads publication line: `musa-v1.14.0`
 
 The baseline identifies the upstream source from which the MUSA work was
 carried forward. Upstream history, source attribution, and the original Julia
@@ -45,7 +45,7 @@ Clone the publication branch and follow the upstream build prerequisites:
 ```sh
 git clone https://github.com/MooreThreads/julia-musa.git
 cd julia-musa
-git checkout musa-v1.14.0-DEV
+git checkout musa-v1.14.0
 make -j2
 ```
 
